@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 interface WeatherData {
@@ -23,6 +23,11 @@ function App() {
 
   const key: string = import.meta.env.VITE_API_KEY;
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCity(e.target.value);
+    setError(null)
+  }
+
   async function fetchWeather() {
     if(city !== '') {
       try {
@@ -38,18 +43,13 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    if(city) {
-      fetchWeather()
-    }
-  }, [city])
   return (
-    <div className="flex items-center justify-center min-h-screen text-white">
+    <div className="flex items-center justify-center min-h-screen text-white bg-gray-800">
       <div className="p-8 rounded-lg shadow-xl bg-gray-600 w-96">
         <h1 className="text-4xl font-semibold text-center mb-6 text-yellow-500">Weather App</h1>
 
         <div className="mb-4">
-          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} className="w-full p-3 rounded-lg text-white outline-2 outline-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800" />
+          <input type="text" value={city} onChange={handleChange} className="w-full p-3 rounded-lg text-white outline-2 outline-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-800" />
         </div>
         <button onClick={fetchWeather} className="w-full p-3 transition delay-75 ease-in-out bg-gray-800 hover:bg-yellow-500 text-white font-semibold hover:text-gray-800 rounded-lg focus:outline-none cursor-pointer">Get Weather</button>
 
